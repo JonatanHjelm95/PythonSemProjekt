@@ -1,20 +1,18 @@
 # Python Semester Projekt
 
 # Stock Predictions
-This project focuses on producing a 30-day stockprediction
-based only on 1 input, name.
+-This project focuses on producing a 30-day stockprediction on any stock, based only on 1 input: stockname
 
-Input will be given with a POST-request to a remote FLASK-server,
-and outputted as an array and a graph
+- Input will be given with a POST-request to a remote FLASK-server, and outputted as an array and a graph
 
-Price data will be collected with Selenium and webscraping, and predictions will be produced through SKLearn
+- Price data will be collected with Selenium and webscraping, and predictions will be produced through SKLearn
 
-#Techs
+# Techs
 - Pandas
 - Numpy
 - Selenium/Websraping
 - Flask
 - Machine Learning (SKLearn)
 
-#Expected challenges
+# Expected challenges
 The expected challenge will be in collecting the right price data, based on a single input. The goal is to collect price data from any stock or stock-like asset; Stocks, Foreign Valuta, Cryptocurreny etc.
