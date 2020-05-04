@@ -1,7 +1,7 @@
 # Python Semester Projekt
 
 # Stock Predictions
--This project focuses on producing a 30-day stockprediction on any stock, based only on 1 input: stockname
+- This project focuses on producing a 30-day stockprediction on any stock, based only on 1 input: stockname
 
 - Input will be given with a POST-request to a remote FLASK-server, and outputted as an array and a graph
 
