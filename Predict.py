@@ -89,12 +89,3 @@ def predict_test(prices):
         return svm_prediction, svm_conf, 'Support Vector Model'
     else:
         return lr_prediction, lr_conf, 'Linear Regression'
-
-if __name__ == "__main__":
-    #ClosePrices, DataPoints = crypto_webscraper.do_scrape('bitcoin')
-    #do_lr_prediction(ClosePrices)
-    #print(DataPoints[10:])
-    #prices = crypto_webscraper.collectData('bitcoin')
-    #lr_predict_improved(prices)
-    prices = stock_webscraper.downloadCSV()
-    print(predict_test(prices))
