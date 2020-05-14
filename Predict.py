@@ -5,6 +5,7 @@ from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import crypto_webscraper
+import stock_webscraper
 
 def do_lr_prediction(ClosePrices):
     df = pd.DataFrame(ClosePrices[::-1])
@@ -62,10 +63,10 @@ def predict_test(prices):
     prices = prices[::-1]
     df = pd.DataFrame(prices)
     forecast = 40
-    df['prediction'] = df[['close']].shift(-forecast)
-    x = np.array(df.drop(['prediction', 'date'],1))
+    df['Prediction'] = df[['Close']].shift(-forecast)
+    x = np.array(df.drop(['Prediction', 'Date'],1))
     x = x[:-forecast]
-    y = np.array(df['prediction'])
+    y = np.array(df['Prediction'])
     y = y[:-forecast]
     x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2, random_state=1)
     svr_rbf = SVR(kernel='rbf', C=1e3, gamma=0.00009)
@@ -78,7 +79,7 @@ def predict_test(prices):
     lr_conf = lr.score(x_test, y_test)
     print(svm_conf, lr_conf)
 
-    x_forecast = np.array(df.drop(['prediction', 'date'],1))[-forecast:]
+    x_forecast = np.array(df.drop(['Prediction', 'Date'],1))[-forecast:]
     lr_prediction = lr.predict(x_forecast)
     #print(lr_prediction)
 
@@ -95,5 +96,5 @@ if __name__ == "__main__":
     #print(DataPoints[10:])
     #prices = crypto_webscraper.collectData('bitcoin')
     #lr_predict_improved(prices)
-    prices = crypto_webscraper.do_scrape('bitcoin')
+    prices = stock_webscraper.downloadCSV()
     print(predict_test(prices))

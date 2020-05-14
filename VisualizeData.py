@@ -9,9 +9,9 @@ def convertToDate(ts):
     dateSplit = dateString.split(' ')
     return dateSplit[0]
 
-def create_graph(name):
-    latestData, predictionData, confidence, method = dataHandler.getPriceData('CRYPTO', name)
-    # Converting list of dicts in to 2 seperate lists
+def create_graph(name, _type):
+    latestData, predictionData, confidence, method = dataHandler.getPriceData(_type, name)
+    # Converting list of dicts in to 2 seperate lists *2
     latestDates, latestPrices = [list(col) for col in zip(*[d.values() for d in latestData])]
     predictionDates, predictionPrices = [list(col) for col in zip(*[p.values() for p in predictionData])]
     
@@ -41,5 +41,5 @@ def create_graph(name):
 
 
 if __name__ == "__main__":
-    create_graph('bitcoin')
+    create_graph('eos', 'CRYPTO')
     #print(convertToDate(1589061600))

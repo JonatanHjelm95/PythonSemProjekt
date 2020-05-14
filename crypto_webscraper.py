@@ -12,6 +12,7 @@ from datetime import date
 def do_scrape(crypto):
     today = dateToday()
     URL = 'https://coinmarketcap.com/currencies/'+str(crypto)+'/historical-data/?start=20130429&end='+str(today)
+    print(URL)
     req = Request(URL+str(crypto))
     webpage = urlopen(req).read()
     soup = BeautifulSoup(webpage, 'html5lib')
@@ -26,8 +27,8 @@ def do_scrape(crypto):
         date = date.replace(',', '')
         close = cols[4]
         close = close.replace(',','')
-        dataPoint['close'] = float(close)
-        dataPoint['date'] = date
+        dataPoint['Close'] = float(close)
+        dataPoint['Date'] = date
         ClosePrices.append(dataPoint)
     return ClosePrices
 
@@ -55,11 +56,11 @@ def do_scrape_improved(crypto):
         low = low.replace(',','')
         close = cols[4]
         close = close.replace(',','')
-        dataPoint['open'] = float(opn)
-        dataPoint['high'] = float(high)
-        dataPoint['low'] = float(low)
-        dataPoint['close'] = float(close)
-        dataPoint['date'] = date
+        dataPoint['Open'] = float(opn)
+        dataPoint['High'] = float(high)
+        dataPoint['Low'] = float(low)
+        dataPoint['Close'] = float(close)
+        dataPoint['Date'] = date
         Prices.append(dataPoint)
     return Prices
 
@@ -87,11 +88,11 @@ def collectData(name):
     prices = do_scrape_improved(name)
     latestPrices = getLatestPrices(name)
     dataPoint = {}
-    dataPoint['open'] = prices[0]['close']
-    dataPoint['high'] = latestPrices['high']
-    dataPoint['low'] = latestPrices['low']
-    dataPoint['close'] = latestPrices['high']
-    dataPoint['date'] = 'now'
+    dataPoint['Open'] = prices[0]['close']
+    dataPoint['High'] = latestPrices['high']
+    dataPoint['Low'] = latestPrices['low']
+    dataPoint['Close'] = latestPrices['high']
+    dataPoint['Date'] = 'now'
     prices = prices[::-1]
     prices.append(dataPoint)
     prices = prices[::-1]
