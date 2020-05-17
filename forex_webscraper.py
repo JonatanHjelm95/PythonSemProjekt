@@ -9,24 +9,33 @@ import pandas as pd
 
 
 def getTickerSymbol(name):
-    tickers = {'google': 'GOOGL'}
     try:
-        return tickers[name.lower()]
+        return symbolLookup.forex_lookup(name)
     except:
-        return symbolLookup.stock_lookup(name)
+        return 'Invalid Currency'
 
 def downloadCSV(name):
     today = dateToday()
     symbol = getTickerSymbol(name)
+    print(symbol)
     #URL = 'https://finance.yahoo.com/quote/'+symbol+'/history?period1=1262304000&period2='+str(today)+'&interval=1d&filter=history&frequency=1d'
-    URL = 'https://query1.finance.yahoo.com/v7/finance/download/'+symbol+'?period1=0&period2='+str(today)+'&interval=1d&events=history'
+    #URL = 'https://query1.finance.yahoo.com/v7/finance/download/'+symbol+'?period1=0&period2='+str(today)+'&interval=1d&events=history'
+    #URL = 'https://finance.yahoo.com/quote/'+str(symbol)+'%3DX/history?period1=0&period2='+str(today)+'&interval=1d&filter=history&frequency=1d'
+    URL = 'https://query1.finance.yahoo.com/v7/finance/download/'+str(symbol)+'=X?period1=0&period2='+str(today)+'&interval=1d&events=history'
+    print(URL)
     req = requests.get(URL)
     url_content = req.content
     csv_file = open('downloaded.csv', 'wb')
     csv_file.write(url_content)
     csv_file.close()
     prices = pd.read_csv('downloaded.csv')
-    return prices[::-1]
+    title = symbol
+    prices.dropna(how='any', inplace=True)
+    #rm = prices[prices['Close'] == 'nan'].index
+    #prices.drop(rm, inplace=True)
+    #for p in prices['Close']:
+    #    print(p)
+    return prices[::-1], title
 
 
 
@@ -37,8 +46,8 @@ def dateToday():
 
 
 if __name__ == '__main__':
-    prices = downloadCSV('tesla')
-    print(prices)
+    prices = downloadCSV('sweden denmark')
+    #print(prices)
     #print(do_scrape('tesla'))
     #print(dateToday())
     #collectData('bitcoin')

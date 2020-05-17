@@ -30,7 +30,8 @@ def do_scrape(crypto):
         dataPoint['Close'] = float(close)
         dataPoint['Date'] = date
         ClosePrices.append(dataPoint)
-    return ClosePrices
+    title = crypto
+    return ClosePrices, title
 
 
 def do_scrape_improved(crypto):

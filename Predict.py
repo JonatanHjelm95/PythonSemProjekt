@@ -60,12 +60,17 @@ def lr_predict_improved(prices):
     df.to_csv('test.csv')
 
 def predict_test(prices):
-    maxSize = 4800
-    if len(prices) > maxSize:
-        prices = prices[:maxSize]
+    #maxSize = 4800
+    #if len(prices) > maxSize:
+    #    prices = prices[:maxSize]
 
     prices = prices[::-1] 
     df = pd.DataFrame(prices)
+    df.dropna(how='any',axis=0)
+    df[df.Close != 'null']
+    #df = df[~df['your column'].isin(['list of strings'])]
+    #rm = df[df['Close'] == 'null'].index
+    #df.drop(rm, inplace=False)
     print(df)
     forecast = 30
     df['Prediction'] = df[['Close']].shift(-forecast)

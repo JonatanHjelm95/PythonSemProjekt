@@ -31,11 +31,10 @@ def do_scrape(name):
     return ClosePrices
 
 def getTickerSymbol(name):
-    tickers = {'google': 'GOOGL', 'mærsk': 'MAERSK-A.CO', 'mærsk a': 'MAERSK-A.CO', 'mærsk b': 'MAERSK-B.CO', 'maersk': 'MAERSK-A.CO',}
     try:
-        return tickers[name.lower()]
-    except:
         return symbolLookup.stock_lookup(name)
+    except:
+        return 'Invalid Stock'
 
 def downloadCSV(name):
     today = dateToday()
@@ -49,7 +48,9 @@ def downloadCSV(name):
     csv_file.write(url_content)
     csv_file.close()
     prices = pd.read_csv('downloaded.csv')
-    return prices[::-1]
+    title = symbol
+    prices.dropna(how='any', inplace=True)
+    return prices[::-1], title
 
 
 
