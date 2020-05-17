@@ -31,10 +31,6 @@ def downloadCSV(name):
     prices = pd.read_csv('downloaded.csv')
     title = symbol
     prices.dropna(how='any', inplace=True)
-    #rm = prices[prices['Close'] == 'nan'].index
-    #prices.drop(rm, inplace=True)
-    #for p in prices['Close']:
-    #    print(p)
     return prices[::-1], title
 
 
