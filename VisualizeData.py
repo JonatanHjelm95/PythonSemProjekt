@@ -31,21 +31,21 @@ def create_graph(name, _type):
     plt.xticks(xi, x)
     plt.plot(latestPrices, 'ks-')
     plt.tight_layout()
-    plt.title(createTitle(_type, title)+ ', ' + str(method) +', Confidence: '+ str(round(float(confidence),2)))
+    plt.title(createTitle(_type, title, name)+ ', ' + str(method) +', Confidence: '+ str(round(float(confidence),2)))
     plt.setp(plt.xticks()[1], rotation=30)
     
     #plt.plot(predictionPrices)
     mpld3.show()
     
 
-def createTitle(_type, symbol):
+def createTitle(_type, symbol, name):
     if _type == 'STOCK':
-        return symbolLookup.stock_getNameFromSymbol(symbol)
+        return symbolLookup.stock_getNameFromSymbol(symbol, name)
     if _type == 'FOREX':
         return symbolLookup.forex_getNameFromSymbol(symbol)
     if _type == 'CRYPTO':
         return symbol
 
 if __name__ == "__main__":
-    create_graph('usd denmark', 'FOREX')
+    create_graph('carlsberg', 'STOCK')
     #print(convertToDate(1589061600))

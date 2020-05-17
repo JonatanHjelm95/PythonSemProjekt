@@ -121,16 +121,16 @@ def forex_getNameFromSymbol(symbol):
     v2 = valutaSymbolsLookup(p2)
     return v1['currency'] + ' vs ' + v2['currency']
 
-def stock_getNameFromSymbol(symbol):
+def stock_getNameFromSymbol(symbol, name):
     stock_nameDict = {value:key for key, value in stock_tickers.items()}
     if symbol not in stock_nameDict:
-        return str(stock_nameLookup(symbol))
+        return str(stock_nameLookup(symbol, name))
     else:
         return stock_tickers[stock_nameDict[symbol]]
 
-def stock_nameLookup(symbol):
+def stock_nameLookup(symbol, name):
 
-    URL = 'https://www.marketwatch.com/tools/quotes/lookup.asp?siteID=mktw&Lookup='+str(symbol)+'&Country=all&Type=Stock'
+    URL = 'https://www.marketwatch.com/tools/quotes/lookup.asp?siteID=mktw&Lookup='+str(name)+'&Country=all&Type=Stock'
     req = Request(URL)
     webpage = urlopen(req).read()
     soup = BeautifulSoup(webpage, 'html5lib')
@@ -142,16 +142,10 @@ def stock_nameLookup(symbol):
         cols = r.find_all('td')
         cols = [ele.text.strip() for ele in cols]
         result['symbol'] = cols[0]
-        result['name']  =cols[1]
+        result['name'] = cols[1]
         results.append(result)
     for res in results:
         if symbol.upper() == str(res['symbol']).upper():
             return res['name']
     return results[0]['name']
 
-if __name__ == "__main__":
-    #print(valutaSymbolsLookup('denmark'))
-    #print(forex_lookup('denmark sweden'))
-    #print(forex_lookup('usd dkk'))
-    #print(forex_getNameFromSymbol('USDDKK'))
-    print(stock_getNameFromSymbol('MRK'))
