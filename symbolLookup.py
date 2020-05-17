@@ -5,7 +5,10 @@ import requests
 
 # Searches for name - returns Symbol. EG: Apple -> AAPL
 def stock_lookup(name):
-    URL = 'https://www.marketwatch.com/tools/quotes/lookup.asp?siteID=mktw&Lookup='+name+'&Country=all&Type=Stock'
+    query = name
+    if ' ' in query:
+        query=query.replace(' ','+')
+    URL = 'https://www.marketwatch.com/tools/quotes/lookup.asp?siteID=mktw&Lookup='+str(query)+'&Country=all&Type=Stock'
     req = Request(URL)
     webpage = urlopen(req).read()
     soup = BeautifulSoup(webpage, 'html5lib')
@@ -22,6 +25,7 @@ def stock_lookup(name):
     for res in results:
         if name in str(res['name']).lower():
             return res['symbol']
+    return results[0]['symbol']
 
 
 def forex_lookup(name):
@@ -57,6 +61,7 @@ def compareSet(name, forexSymbol):
 
 
 if __name__ == "__main__":
-    print(forex_lookup('usd dkk'))
+    print(stock_lookup('mazda'))
+    #print(forex_lookup('usd dkk'))
     
     #print(stock_lookup('amazon'))

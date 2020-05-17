@@ -31,7 +31,7 @@ def do_scrape(name):
     return ClosePrices
 
 def getTickerSymbol(name):
-    tickers = {'google': 'GOOGL'}
+    tickers = {'google': 'GOOGL', 'mærsk': 'MAERSK-A.CO', 'mærsk a': 'MAERSK-A.CO', 'mærsk b': 'MAERSK-B.CO', 'maersk': 'MAERSK-A.CO',}
     try:
         return tickers[name.lower()]
     except:
@@ -40,8 +40,9 @@ def getTickerSymbol(name):
 def downloadCSV(name):
     today = dateToday()
     symbol = getTickerSymbol(name)
+    print(symbol)
     #URL = 'https://finance.yahoo.com/quote/'+symbol+'/history?period1=1262304000&period2='+str(today)+'&interval=1d&filter=history&frequency=1d'
-    URL = 'https://query1.finance.yahoo.com/v7/finance/download/'+symbol+'?period1=0&period2='+str(today)+'&interval=1d&events=history'
+    URL = 'https://query1.finance.yahoo.com/v7/finance/download/'+str(symbol)+'?period1=0&period2='+str(today)+'&interval=1d&events=history'
     req = requests.get(URL)
     url_content = req.content
     csv_file = open('downloaded.csv', 'wb')
@@ -59,8 +60,9 @@ def dateToday():
 
 
 if __name__ == '__main__':
-    prices = downloadCSV('tesla')
-    print(prices)
+    pass
+    #prices = downloadCSV('novo nordisk')
+    #print(prices)
     #print(do_scrape('tesla'))
     #print(dateToday())
     #collectData('bitcoin')

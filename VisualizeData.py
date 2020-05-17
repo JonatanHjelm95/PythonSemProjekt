@@ -10,7 +10,7 @@ def convertToDate(ts):
     return dateSplit[0]
 
 def create_graph(name, _type):
-    latestData, predictionData, confidence, method = dataHandler.getPriceData(_type, name)
+    latestData, predictionData, confidence, method = dataHandler.getPriceData(_type, name.lower())
     # Converting list of dicts in to 2 seperate lists *2
     latestDates, latestPrices = [list(col) for col in zip(*[d.values() for d in latestData])]
     predictionDates, predictionPrices = [list(col) for col in zip(*[p.values() for p in predictionData])]
@@ -30,7 +30,7 @@ def create_graph(name, _type):
     plt.xticks(xi, x)
     plt.plot(latestPrices, 'ks-')
     plt.tight_layout()
-    plt.title(name+ ', ' + str(method) +', Confidence: '+ str(round(float(confidence),2)))
+    plt.title(name.capitalize()+ ', ' + str(method) +', Confidence: '+ str(round(float(confidence),2)))
     plt.setp(plt.xticks()[1], rotation=30)
     
     #plt.plot(predictionPrices)
@@ -41,5 +41,5 @@ def create_graph(name, _type):
 
 
 if __name__ == "__main__":
-    create_graph('eos', 'CRYPTO')
+    create_graph('mastercard', 'STOCK')
     #print(convertToDate(1589061600))

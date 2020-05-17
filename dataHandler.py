@@ -6,12 +6,12 @@ import time
 
 
 
-def getPriceData(stockType, name):
-    if str(stockType) == 'STOCK':
+def getPriceData(_type, name):
+    if str(_type) == 'STOCK':
         return stock_createFormattedData(name)
-    if str(stockType) == 'CRYPTO':
+    if str(_type) == 'CRYPTO':
         return crypto_createFormattedData(name)
-    if str(stockType) == 'FOREX':
+    if str(_type) == 'FOREX':
         pass
 
 
@@ -171,5 +171,5 @@ def tsToDate(ts):
     print(datetime.fromtimestamp(ts))
 
 if __name__ == "__main__":
-    print(stock_createFormattedData('google'))
+    print(stock_createFormattedData('novo nordisk'))
     #getPriceData('CRYPTO', 'bitcoin')

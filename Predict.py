@@ -60,9 +60,14 @@ def lr_predict_improved(prices):
     df.to_csv('test.csv')
 
 def predict_test(prices):
-    prices = prices[::-1]
+    maxSize = 4800
+    if len(prices) > maxSize:
+        prices = prices[:maxSize]
+
+    prices = prices[::-1] 
     df = pd.DataFrame(prices)
-    forecast = 40
+    print(df)
+    forecast = 30
     df['Prediction'] = df[['Close']].shift(-forecast)
     x = np.array(df.drop(['Prediction', 'Date'],1))
     x = x[:-forecast]
@@ -89,3 +94,7 @@ def predict_test(prices):
         return svm_prediction, svm_conf, 'Support Vector Model'
     else:
         return lr_prediction, lr_conf, 'Linear Regression'
+
+if __name__ == "__main__":
+    prices = stock_webscraper.downloadCSV('novo nordisk')
+    print(predict_test(prices))
