@@ -15,6 +15,7 @@ def getTickerSymbol(name):
         return 'Invalid Currency'
 
 def downloadCSV(name):
+    name = name.replace(' ','+')
     today = dateToday()
     symbol = getTickerSymbol(name)
     print(symbol)

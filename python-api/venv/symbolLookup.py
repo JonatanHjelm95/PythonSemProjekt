@@ -57,8 +57,8 @@ def forex_lookup(name):
             results.append(result)
         symbol = ''
         symbolRev = ''
-        if ' ' in name:
-                nameSplit = name.split(' ')
+        if '+' in name:
+                nameSplit = name.split('+')
                 if len(nameSplit) > 2:
                     index = 0
                     for i in range(len(nameSplit)):
@@ -129,7 +129,7 @@ def stock_getNameFromSymbol(symbol, name):
         return stock_tickers[stock_nameDict[symbol]]
 
 def stock_nameLookup(symbol, name):
-
+    name = name.replace(' ','+')
     URL = 'https://www.marketwatch.com/tools/quotes/lookup.asp?siteID=mktw&Lookup='+str(name)+'&Country=all&Type=Stock'
     req = Request(URL)
     webpage = urlopen(req).read()
