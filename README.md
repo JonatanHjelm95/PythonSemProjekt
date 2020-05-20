@@ -1,7 +1,7 @@
 # Python Semester Projekt
 
 # Stock Predictions
-- This project focuses on producing a daily close price prediction on any stock, based only on 1 input: stockname
+- This project focuses on producing a 30 day close price prediction on any stock, based only on 1 input: stockname
 
 - Input will be given with a POST-request to a remote FLASK-server, and outputted as an array and a graph
 
@@ -28,6 +28,5 @@ The end results is quite good.
 
 # How to run
 - Open python folder, run flaskApp.py; Make post requests to localhost:5001/api/predict
-with jsonbody { "name": "some name", "type": "STOCK/FOREX/CRYPTO" }.
-OR
+with jsonbody { "name": "some name", "type": "STOCK/FOREX/CRYPTO" }
 - try demo at: http://167.172.164.163/
