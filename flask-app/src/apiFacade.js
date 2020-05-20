@@ -1,5 +1,5 @@
 /* eslint-disable no-throw-literal */
-//const URL = "http://localhost:4000";
+//const URL = "http://localhost:5001";
 
 
 
@@ -21,7 +21,7 @@ class ApiFacade {
 
     predict = async (name, type) => {
         const options = this.makeOptions("POST", false, { name: name, type: type });
-        const res = await fetch("/predict", options)
+        const res = await fetch("/api/predict", options)
         const json = await res.json();
         if (!res.ok) {
             throw { status: res.status, fullError: json }
