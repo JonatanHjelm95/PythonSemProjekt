@@ -1,7 +1,7 @@
 # Python Semester Projekt
 
 # Stock Predictions
-- This project focuses on producing a 30 day close price prediction on any stock, based only on 1 input: stockname
+- This project focuses on producing a 30 day close price prediction on any stock, foreign valuta or cryptocurrency.
 
 - Input will be given with a POST-request to a remote FLASK-server, and outputted as an array and a graph
 
@@ -24,7 +24,7 @@ More data = higher Coef/Confidence.
 # Challenges
 The biggest challenge was to get the right stock/forex/crypto symbol from user input.
 This took a while to fix, but was eventually solved using even more webscraping.
-The end results is quite good.
+The end results is quite good, and performing a search is pretty easy
 
 # How to run
 - Open python folder, run flaskApp.py; Make post requests to localhost:5001/api/predict
