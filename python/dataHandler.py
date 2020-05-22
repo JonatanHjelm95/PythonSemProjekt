@@ -16,6 +16,14 @@ def getPriceData(_type, name):
         return forex_createFormattedData(name)
 
 
+def getPriceData_advanced(_type, name, method, n, gamma, kernel):
+    if str(_type) == 'STOCK':
+        return stock_createFormattedData_advanced(name, method, n, gamma, kernel)
+    if str(_type) == 'CRYPTO':
+        return crypto_createFormattedData_advanced(name, method, n, gamma, kernel)
+    if str(_type) == 'FOREX':
+        return forex_createFormattedData_advanced(name, method, n, gamma, kernel)
+
 
 ### Shared Functions ###
 
@@ -72,12 +80,22 @@ def getLatestDataPoints(DataPoints):
 ########################
 def crypto_createFormattedData(name):
     ClosePrices, title = getCryptoData(name)
-    predictions, confidence, predictionMethod = Predict.predict_test(ClosePrices)
+    predictions, confidence, predictionMethod = Predict.predict(ClosePrices)
     latestDataPoints = getLatestDataPoints(ClosePrices)
     futureTimestamps = crypto_createFutureDates(latestDataPoints, predictions)
     PredictionData = combinePredictionData(futureTimestamps, predictions)
     latestData = crypto_combineLatestData(latestDataPoints)
     return latestData, PredictionData, confidence, predictionMethod, title
+
+def crypto_createFormattedData_advanced(name, method, n, gamma, kernel):
+    ClosePrices, title = getCryptoData(name)
+    predictions, confidence, predictionMethod = Predict.predict_specific(ClosePrices, method, n, gamma, kernel)
+    latestDataPoints = getLatestDataPoints(ClosePrices)
+    futureTimestamps = crypto_createFutureDates(latestDataPoints, predictions)
+    PredictionData = combinePredictionData(futureTimestamps, predictions)
+    latestData = crypto_combineLatestData(latestDataPoints)
+    return latestData, PredictionData, confidence, predictionMethod, title
+
 
 def getCryptoData(name):
     return crypto_webscraper.do_scrape(name)
@@ -98,7 +116,7 @@ def crypto_createFutureDates(latestDataPoints, predictions):
     futureTimestamps = []
     month, day, year = crypto_splitDateString(latestDataPoints[-1]['Date'])
     ts = createTimestamp(m=month, d=day, y=year)
-    for i in range(len(latestDataPoints)):   
+    for i in range(len(predictions)):   
         fts = createFutureTimestamp(ts=ts, n=i+1)
         futureTimestamps.append(fts)
     return futureTimestamps
@@ -108,12 +126,22 @@ def crypto_createFutureDates(latestDataPoints, predictions):
 #######################
 def stock_createFormattedData(name):
     ClosePrices, title = stock_webscraper.downloadCSV(name)
-    predictions, confidence, predictionMethod = Predict.predict_test(ClosePrices)
+    predictions, confidence, predictionMethod = Predict.predict(ClosePrices)
     latestDataPoints = stock_getLatestDataPoints(ClosePrices)
     futureTimestamps = stock_createFutureDates(latestDataPoints, predictions)
     PredictionData = combinePredictionData(futureTimestamps, predictions)
     latestData = stock_combineLatestData(latestDataPoints)
     return latestData, PredictionData, confidence, predictionMethod, title
+
+def stock_createFormattedData_advanced(name, method, n, gamma, kernel):
+    ClosePrices, title = stock_webscraper.downloadCSV(name)
+    predictions, confidence, predictionMethod = Predict.predict_specific(ClosePrices, method, n, gamma, kernel)
+    latestDataPoints = stock_getLatestDataPoints(ClosePrices)
+    futureTimestamps = stock_createFutureDates(latestDataPoints, predictions)
+    PredictionData = combinePredictionData(futureTimestamps, predictions)
+    latestData = stock_combineLatestData(latestDataPoints)
+    return latestData, PredictionData, confidence, predictionMethod, title
+
 
 def stock_splitDateString(date):
     dateSplit = str(date).split('-')
@@ -144,7 +172,7 @@ def stock_createFutureDates(latestDataPoints, predictions):
     latestDate = str(dates[-1])
     month, day, year = stock_splitDateString(latestDate)
     ts = createTimestamp(m=month, d=day, y=year)
-    for i in range(len(latestDataPoints)):
+    for i in range(len(predictions)):
         fts = createFutureTimestamp_weekday(ts=ts, n=1)
         futureTimestamps.append(fts)
         ts = fts
@@ -155,12 +183,22 @@ def stock_createFutureDates(latestDataPoints, predictions):
 #######################
 def forex_createFormattedData(name):
     ClosePrices, title = forex_webscraper.downloadCSV(name)
-    predictions, confidence, predictionMethod = Predict.predict_test(ClosePrices)
+    predictions, confidence, predictionMethod = Predict.predict(ClosePrices)
     latestDataPoints = stock_getLatestDataPoints(ClosePrices)
     futureTimestamps = stock_createFutureDates(latestDataPoints, predictions)
     PredictionData = combinePredictionData(futureTimestamps, predictions)
     latestData = stock_combineLatestData(latestDataPoints)
     return latestData, PredictionData, confidence, predictionMethod, title
+
+def forex_createFormattedData_advanced(name, method, n, gamma, kernel):
+    ClosePrices, title = forex_webscraper.downloadCSV(name)
+    predictions, confidence, predictionMethod = Predict.predict_specific(ClosePrices, method, n, gamma, kernel)
+    latestDataPoints = stock_getLatestDataPoints(ClosePrices)
+    futureTimestamps = stock_createFutureDates(latestDataPoints, predictions)
+    PredictionData = combinePredictionData(futureTimestamps, predictions)
+    latestData = stock_combineLatestData(latestDataPoints)
+    return latestData, PredictionData, confidence, predictionMethod, title
+
 
 def getForexData(name):
     return forex_webscraper.downloadCSV(name)

@@ -24,6 +24,58 @@ def create_graph(name, _type):
         df = pd.DataFrame(merge_lists_of_dicts(latestData, predictionData))
         # setting latest timestamp from the actual price data
         currentTimestamp = latestData[-1]['timestamp']
+        # defining plotsize
+        plt.subplots(figsize=(20,5))
+        # plotting all data
+        plt.plot(df['date'], df['price'], 'ks-', c = 'blue', label='Historical prices')
+        # plotting prediction data on top
+        plt.plot(df[df.timestamp >= currentTimestamp]['date'], df[df.timestamp >= currentTimestamp]['price'], 'ks-', c = 'red', label='Predicted prices')
+        # Setting title, methods and Coef
+        title = createTitle(_type, title, name)
+        plt.title(title + ', ' + str(method) +', Confidence: '+ str(round(float(confidence),2)))
+        # Rotating x labels
+        plt.xticks(rotation = 45)
+        if not _type =='FOREX':
+            valuta = 'USD'
+        else:
+            valuta = title.split('vs')
+            valuta = valuta[0]
+        plt.ylabel(valuta)
+        # Setting grrid
+        plt.grid()
+        #plt.show()
+        # Converting plot to png and encoding as base64
+        buf = io.BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        pic_hash = base64.b64encode(buf.read())
+        # Creating json response
+        jsonDict = {}
+        jsonDict['title'] = title
+        jsonDict['method'] = str(method)
+        jsonDict['coef'] = str(confidence)
+        jsonDict['prices'] = list(df['price'])
+        jsonDict['dates'] = list(df['date'])
+        jsonDict['graph'] = str(pic_hash)
+        
+        return json.dumps(jsonDict)
+    except Exception as e:
+        jsonDict = {}
+        if str(e) == "'DataFrame' object has no attribute 'Close'":
+            jsonDict['error'] = _type.lower() + ' does not exist'
+        else:
+            jsonDict['error'] = str(e)
+        return json.dumps(jsonDict)
+
+def create_graph_specific(name, _type, method, n, gamma, kernel):
+    try:
+        name = name.replace(' ','+')
+        latestData, predictionData, confidence, method, title = dataHandler.getPriceData_advanced(_type, name.lower(), method, n, gamma, kernel)
+        
+        # Creating 1 dataframe from 2 lists of dicts
+        df = pd.DataFrame(merge_lists_of_dicts(latestData, predictionData))
+        # setting latest timestamp from the actual price data
+        currentTimestamp = latestData[-1]['timestamp']
         print(currentTimestamp)
         # defining plotsize
         plt.subplots(figsize=(20,5))
@@ -63,8 +115,6 @@ def create_graph(name, _type):
         return json.dumps(jsonDict)
 
 
-    
-    
 
 def merge_lists_of_dicts(l1, l2):
     wholeData = []

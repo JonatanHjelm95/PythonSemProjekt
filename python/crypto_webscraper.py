@@ -2,10 +2,12 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import html5lib
 import requests
+import symbolLookup
 from datetime import date
 
 def do_scrape(crypto):
     today = dateToday()
+    crypto = symbolLookup.crypto_lookup(crypto)
     URL = 'https://coinmarketcap.com/currencies/'+str(crypto)+'/historical-data/?start=20130429&end='+str(today)
     print(URL)
     req = Request(URL+str(crypto))

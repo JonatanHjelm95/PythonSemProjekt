@@ -28,6 +28,15 @@ class ApiFacade {
         }
         return json;
     }
+    advancedPredict = async (name, type, method, n, gamma, kernel) => {
+        const options = this.makeOptions("POST", false, { name: name, type: type, method: method, n: n, gamma: gamma, kernel:kernel});
+        const res = await fetch("/api/predict/specific", options)
+        const json = await res.json();
+        if (!res.ok) {
+            throw { status: res.status, fullError: json }
+        }
+        return json;
+    }
 }
 
 

@@ -79,6 +79,7 @@ class Main extends Component {
 
         return (
             <div>
+                
                 <div>
                     <div className="name-input-container">
                         <form onChange={this.onChange}>
@@ -98,7 +99,7 @@ class Main extends Component {
                 </div>
                 <div>
                     {this.state.loading ? (<div className="loader-container"><Loader /></div>) : (<img src={this.state.image} style={{ width: window.innerWidth, height: 'auto' }} />)}
-                    {this.state.error.length > 0 ? (<h1>{this.state.error}</h1>): (<div></div>)}
+                    {this.state.error.length > 0 ? (<h1>{this.state.error}</h1>) : (<div></div>)}
                 </div>
             </div>
         );

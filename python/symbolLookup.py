@@ -90,6 +90,27 @@ def forex_lookup(name):
     except:
         return 'Invalid currency'
         
+def crypto_lookup(name):
+    URL = 'https://coinmarketcap.com/all/views/all/'
+    req = Request(URL)
+    webpage = urlopen(req).read()
+    soup = BeautifulSoup(webpage, 'html5lib')
+    tbody = soup.find('tbody')
+    row = tbody.find_all('tr')
+    results = []
+    for r in row:
+        result = {}
+        cols = r.find_all('td')
+        cols = [ele.text.strip() for ele in cols]
+        result['symbol'] = cols[2]
+        result['name'] = cols[1]
+        results.append(result)
+    
+    for res in results:
+        if name.upper() == res['symbol'].upper() or name.lower() == res['name'].lower():
+            return res['name'].lower()
+    return 'Invalid currency'
+        
 
 def valutaSymbolsLookup(name):
     try:
