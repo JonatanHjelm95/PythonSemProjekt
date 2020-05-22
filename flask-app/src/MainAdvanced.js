@@ -117,65 +117,67 @@ class MainAdvanced extends Component {
 
 
                 <div>
-                    <form>
 
-                        <div className="name-input-container">
+                    <div className="name-input-container">
+                        <form>
+
                             <input onChange={this.onChange} className="nameInput" type="text" id="name" defaultValue='Google'
                             />
-                        </div>
+                        </form>
+
+                    </div>
+                    <div className="type-input-container">
+                        <select className="Type" onChange={(evt) => this.changeType(evt)}>
+                            <option value="STOCK">Stock</option>
+                            <option value="FOREX">Forex</option>
+                            <option value="CRYPTO">Crypto Currency</option>
+                        </select>
+                    </div>
+                    <div className="type-input-container">
+                        <select className="Method" onChange={(evt) => this.changeMethod(evt)}>
+                            <option value="LR">Linear Regression</option>
+                            <option value="SVM">Support Vector Regression</option>
+                        </select>
+                        <input
+                            onChange={(evt) => this.changeAmount(evt)}
+                            type="number"
+                            step="1"
+                            min='30'
+                            defaultValue={30}
+                        ></input>
+                    </div>
+
+                    {this.state.method == 'SVM' ? (<div>
                         <div className="type-input-container">
-                            <select className="Type" onChange={(evt) => this.changeType(evt)}>
-                                <option value="STOCK">Stock</option>
-                                <option value="FOREX">Forex</option>
-                                <option value="CRYPTO">Crypto Currency</option>
+                            <select className="Kernel" onChange={(evt) => this.changeKernel(evt)}>
+                                <option value="rbf">RBF</option>
+                                <option value="linear">Linear</option>
+                                <option value="poly">Poly</option>
+                                <option value="sigmoid">Sigmoid</option>
+                                <option value="precomputed">Precomputed</option>
                             </select>
                         </div>
+
                         <div className="type-input-container">
-                            <select className="Method" onChange={(evt) => this.changeMethod(evt)}>
-                                <option value="LR">Linear Regression</option>
-                                <option value="SVM">Support Vector Regression</option>
-                            </select>
-                            <input
-                                onChange={(evt) => this.changeAmount(evt)}
-                                type="number"
-                                step="1"
-                                min='30'
-                                defaultValue={30}
-                            ></input>
-                        </div>
+                            <select className="Gamma" onChange={(evt) => this.changeGammaType(evt)}>
+                                <option value="auto">Auto</option>
+                                <option value="scale">Scale</option>
+                                <option value="specific">Specific...</option>
+                            </select></div>
+                        {this.state.gammaType == 'specific' ? (<div><input
+                            onChange={(evt) => this.changeGamma(evt)}
+                            type="number"
+                            step="0.001"
+                            min='0'
+                            max='1' defaultValue={1.0}
+                        ></input></div>) : (<div></div>)}
+                    </div>
+                    ) : (
+                            <div></div>
+                        )}
 
-                        {this.state.method == 'SVM' ? (<div>
-                            <div className="type-input-container">
-                                <select className="Kernel" onChange={(evt) => this.changeKernel(evt)}>
-                                    <option value="rbf">RBF</option>
-                                    <option value="linear">Linear</option>
-                                    <option value="poly">Poly</option>
-                                    <option value="sigmoid">Sigmoid</option>
-                                    <option value="precomputed">Precomputed</option>
-                                </select>
-                            </div>
-
-                            <div className="type-input-container">
-                                <select className="Gamma" onChange={(evt) => this.changeGammaType(evt)}>
-                                    <option value="auto">Auto</option>
-                                    <option value="scale">Scale</option>
-                                    <option value="specific">Specific...</option>
-                                </select></div>
-                            {this.state.gammaType == 'specific' ? (<div><input
-                                onChange={(evt) => this.changeGamma(evt)}
-                                type="number"
-                                step="0.001"
-                                min='0'
-                                max='1' defaultValue={1.0}
-                            ></input></div>) : (<div></div>)}
-                        </div>
-                        ) : (
-                                <div></div>
-                            )}
-
-                        <button onClick={(evt) => this.doFetch(this.state.name, this.state.type, this.state.method, this.state.n, this.state.gamma, this.state.kernel, this.state.gammaType)}
-                        >Go</button>
-                    </form>
+                    <button onClick={(evt) => this.doFetch(this.state.name, this.state.type, this.state.method, this.state.n, this.state.gamma, this.state.kernel, this.state.gammaType)}
+                    >Predict</button>
 
                 </div>
                 <div>

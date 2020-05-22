@@ -95,7 +95,7 @@ class Main extends Component {
                         </select>
                     </div>
                     <button onClick={(evt) => this.doFetch(this.state.name, this.state.type)}
-                    >Go</button>
+                    >Predict</button>
                 </div>
                 <div>
                     {this.state.loading ? (<div className="loader-container"><Loader /></div>) : (<img src={this.state.image} style={{ width: window.innerWidth, height: 'auto' }} />)}
